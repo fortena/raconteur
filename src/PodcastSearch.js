@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
@@ -15,13 +16,6 @@ const search = term =>
 // Limited lookup
 // http://itunes.apple.com/lookup?id=173001861
 // scrape information from links?
-
-const ResultWrapper = styled.div`
-  border: 1px solid lighhtgrey;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  padding: 5px 10px;
-`;
 
 const SearchWrapper = styled.div`
   max-width: 1200px;
@@ -58,13 +52,19 @@ const Genre = styled.div`
 
 const filterGenres = genres => genres.filter(genre => genre !== 'Podcasts');
 
-const PodcastSearch = ({ history, match, location }) => {
-  console.log('params', match);
-  console.log('location', location);
-  // console.log('props', props);
+const PodcastSearch = ({ history, location }) => {
+  const [initialized, setInitialized] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  console.log('searchResults', searchResults);
+  useEffect(() => {
+    if (!initialized && location.search.length > 0) {
+      const searchParam = decodeURI(location.search.substring(1));
+      search(searchParam).then(({ results }) => {
+        setSearchResults(results);
+      });
+    }
+    setInitialized(true);
+  });
   return (
     <SearchWrapper>
       <SearchInput
@@ -75,7 +75,7 @@ const PodcastSearch = ({ history, match, location }) => {
         }}
         onKeyDown={e => {
           if (enter(e.key)) {
-            history.push({ search: `q=${searchTerm}` });
+            history.push({ search: `${searchTerm}` });
             search(searchTerm).then(({ results }) => {
               setSearchResults(results);
             });
@@ -114,6 +114,15 @@ const PodcastSearch = ({ history, match, location }) => {
       </div>
     </SearchWrapper>
   );
+};
+
+PodcastSearch.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string
+  }).isRequired
 };
 
 export default PodcastSearch;
