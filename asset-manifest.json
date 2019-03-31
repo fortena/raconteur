@@ -1,13 +1,13 @@
 {
-  "main.css": "/static/css/main.28d9f20a.chunk.css",
-  "main.js": "/static/js/main.26f896a0.chunk.js",
-  "main.js.map": "/static/js/main.26f896a0.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.fdfcfda2.js",
-  "runtime~main.js.map": "/static/js/runtime~main.fdfcfda2.js.map",
-  "static/js/2.e4f47b64.chunk.js": "/static/js/2.e4f47b64.chunk.js",
-  "static/js/2.e4f47b64.chunk.js.map": "/static/js/2.e4f47b64.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.c19c351b24f21bb6287dacaa759d4379.js": "/precache-manifest.c19c351b24f21bb6287dacaa759d4379.js",
-  "service-worker.js": "/service-worker.js",
-  "static/css/main.28d9f20a.chunk.css.map": "/static/css/main.28d9f20a.chunk.css.map"
+  "main.css": "/cast-wiki/static/css/main.28d9f20a.chunk.css",
+  "main.js": "/cast-wiki/static/js/main.1c4d277c.chunk.js",
+  "main.js.map": "/cast-wiki/static/js/main.1c4d277c.chunk.js.map",
+  "runtime~main.js": "/cast-wiki/static/js/runtime~main.3270aabf.js",
+  "runtime~main.js.map": "/cast-wiki/static/js/runtime~main.3270aabf.js.map",
+  "static/js/2.6d8427af.chunk.js": "/cast-wiki/static/js/2.6d8427af.chunk.js",
+  "static/js/2.6d8427af.chunk.js.map": "/cast-wiki/static/js/2.6d8427af.chunk.js.map",
+  "index.html": "/cast-wiki/index.html",
+  "precache-manifest.9db584acadb0e20573d95b51cf457e59.js": "/cast-wiki/precache-manifest.9db584acadb0e20573d95b51cf457e59.js",
+  "service-worker.js": "/cast-wiki/service-worker.js",
+  "static/css/main.28d9f20a.chunk.css.map": "/cast-wiki/static/css/main.28d9f20a.chunk.css.map"
 }
