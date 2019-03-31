@@ -4,11 +4,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
 import { enter } from './keyEvents';
-
-const search = term =>
-  fetch(`https://itunes.apple.com/search?entity=podcast&term=${term}`).then(
-    response => response.json()
-  );
+import { useStateValue } from './state';
+import { searchPodcasts } from './apiActions';
 
 // Genres endpoint
 // https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres
@@ -29,6 +26,11 @@ const ResultItem = styled.div`
 const PodcastName = styled(Link)`
   margin: 5px;
   font-size: 28px;
+  color: black;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Host = styled.p`
@@ -55,13 +57,11 @@ const filterGenres = genres => genres.filter(genre => genre !== 'Podcasts');
 const PodcastSearch = ({ history, location }) => {
   const [initialized, setInitialized] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [{ podcasts }, dispatch] = useStateValue();
   useEffect(() => {
     if (!initialized && location.search.length > 0) {
       const searchParam = decodeURI(location.search.substring(1));
-      search(searchParam).then(({ results }) => {
-        setSearchResults(results);
-      });
+      searchPodcasts(searchParam, dispatch);
     }
     setInitialized(true);
   });
@@ -76,14 +76,12 @@ const PodcastSearch = ({ history, location }) => {
         onKeyDown={e => {
           if (enter(e.key)) {
             history.push({ search: `${searchTerm}` });
-            search(searchTerm).then(({ results }) => {
-              setSearchResults(results);
-            });
+            searchPodcasts(searchTerm, dispatch);
           }
         }}
       />
       <div>
-        {searchResults.map(
+        {podcasts.results.map(
           ({
             artistName,
             artistId,

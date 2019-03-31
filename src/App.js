@@ -1,13 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import Header from './Header';
 import Home from './Home';
 import Podcast from './Podcast';
+import { StateProvider } from './state';
+import { initialState, reducer } from './reducer';
 
 export default () => (
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/podcast/:id/" component={Podcast} />
-    </Switch>
-  </BrowserRouter>
+  <StateProvider initialState={initialState} reducer={reducer}>
+    <div>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/podcast/:id/" component={Podcast} />
+      </Switch>
+    </div>
+  </StateProvider>
 );

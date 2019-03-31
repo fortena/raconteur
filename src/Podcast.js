@@ -6,12 +6,6 @@ import styled from 'styled-components';
 
 const scrape = id => axios.get(`https://itunes.apple.com/us/podcast//id${id}`);
 
-// const lookUp = id =>
-//   axios.get(`http://itunes.apple.com/lookup?id=${id}`).then(response => {
-//     console.log(response);
-//     return response.data;
-//   });
-
 const lookUp = id =>
   fetch(`http://itunes.apple.com/lookup?id=${id}`).then(response =>
     response.json()
@@ -22,7 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  margin: 40px;
+  margin: 0px 40px;
 `;
 
 const Title = styled.h1`
@@ -30,18 +24,13 @@ const Title = styled.h1`
 `;
 
 const Sidebar = styled.div`
-  margin: 40px;
+  margin: 0px 40px;
 `;
 
 const Artwork = styled.img`
   height: 300px;
   width: 300px;
 `;
-
-// const EpisodeHeader = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
 
 const SectionHeading = styled.h2`
   border-bottom: 3px solid black;
@@ -51,6 +40,14 @@ const SectionHeading = styled.h2`
 const ReleaseDate = styled.p`
   font-size: 14px;
   font-style: italic;
+`;
+
+const WebsiteLink = styled.a`
+  color: black;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Podcast = ({ match }) => {
@@ -124,7 +121,9 @@ const Podcast = ({ match }) => {
             }) => (
               <div key={episodeId}>
                 <h3>{episodeTitle}</h3>
-                <p>{episodeDescription}</p>
+                {episodeTitle !== episodeDescription ? (
+                  <p>{episodeDescription}</p>
+                ) : null}
                 <ReleaseDate>{`Released: ${episodeReleaseData}`}</ReleaseDate>
               </div>
             )
@@ -135,7 +134,7 @@ const Podcast = ({ match }) => {
         <Artwork src={podcast.artworkUrl600} alt="artwork" />
         <p id="publisher">{podcast.artistName}</p>
         <p>{language}</p>
-        <a href={website}>Website</a>
+        <WebsiteLink href={website}>{website}</WebsiteLink>
       </Sidebar>
     </Wrapper>
   );
