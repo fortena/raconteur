@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import cheerio from 'cheerio';
 import axios from 'axios';
 import styled from 'styled-components';
+import { getPodcast } from './apiActions';
+import { useStateValue } from './state';
 
 const scrape = id => axios.get(`https://itunes.apple.com/us/podcast//id${id}`);
 
-const lookUp = id =>
-  fetch(`http://itunes.apple.com/lookup?id=${id}`).then(response =>
-    response.json()
-  );
+// const lookUp = id =>
+//   fetch(`http://itunes.apple.com/lookup?id=${id}`).then(response => {
+//     if (response) {
+//       console.log('response', response);
+//       return response.json();
+//     }
+//     return null;
+//   });
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,15 +60,18 @@ const Podcast = ({ match }) => {
   const [initialized, setInitialized] = useState(false);
   const [description, setDescription] = useState('');
   const [episodes, setEpisodes] = useState([]);
-  const [podcast, setPodcast] = useState({});
+  // const [podcast, setPodcast] = useState({});
   const [website, setWebsite] = useState('');
   const [language, setLanguage] = useState('');
   const podcastId = match.params.id;
+  const [{ podcasts }, dispatch] = useStateValue();
+  const podcast = podcasts.results.map(p => p.collectionId === podcastId);
   useEffect(() => {
     if (!initialized) {
-      lookUp(podcastId).then(({ results }) => {
-        setPodcast(results[0]);
-      });
+      getPodcast(podcastId, dispatch);
+      // lookUp(podcastId).then(({ results }) => {
+      //   setPodcast(results[0]);
+      // });
       scrape(podcastId).then(response => {
         const $ = cheerio.load(response.data);
         $('#content .center-stack .product-review p').each((index, element) => {

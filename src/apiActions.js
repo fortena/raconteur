@@ -23,6 +23,13 @@ export const searchPodcasts = (term, dispatch) =>
     dispatch
   });
 
+export const getPodcast = (id, dispatch) =>
+  getAction({
+    key: 'podcasts',
+    url: `http://itunes.apple.com/lookup?id=${id}`,
+    dispatch
+  });
+
 // export const getAction = ({ key, url }) => {
 //   const [state, dispatch] = useStateValue();
 //   dispatch({ type: GET_REQUEST, meta: { key } });
