@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -33,26 +34,26 @@ const PodcastName = styled(Link)`
   }
 `;
 
-const Host = styled.p`
+const Publisher = styled.p`
   margin: 10px 5px;
 `;
 
-const GenreWrapper = styled.div`
-  margin: 5px;
-  display: flex;
-`;
+// const GenreWrapper = styled.div`
+//   margin: 5px;
+//   display: flex;
+// `;
 
-const Genre = styled.div`
-  margin-right: 10px;
-  padding: 4px;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  background: #eaeaea;
-`;
+// const Genre = styled.div`
+//   margin-right: 10px;
+//   padding: 4px;
+//   border-radius: 5px;
+//   font-size: 12px;
+//   font-weight: bold;
+//   text-transform: uppercase;
+//   background: #eaeaea;
+// `;
 
-const filterGenres = genres => genres.filter(genre => genre !== 'Podcasts');
+// const filterGenres = genres => genres.filter(genre => genre !== 'Podcasts');
 
 const PodcastSearch = ({ history, location }) => {
   const [initialized, setInitialized] = useState(false);
@@ -82,29 +83,14 @@ const PodcastSearch = ({ history, location }) => {
       />
       <div>
         {podcasts.results.map(
-          ({
-            artistName,
-            artistId,
-            artworkUrl100,
-            collectionId,
-            genres,
-            genreIds,
-            primaryGenreName,
-            trackName,
-            trackId
-          }) => (
-            <ResultItem key={trackId}>
-              <img src={artworkUrl100} alt="artwork" />
+          ({ id, image, publisher_original, title_original }) => (
+            <ResultItem key={id}>
+              <img src={image} alt="artwork" />
               <div>
-                <PodcastName to={`/podcast/${collectionId}/`}>
-                  {trackName}
+                <PodcastName to={`/podcast/${id}/`}>
+                  {title_original}
                 </PodcastName>
-                <Host>{artistName}</Host>
-                <GenreWrapper>
-                  {filterGenres(genres).map(genre => (
-                    <Genre key={genre}>{genre}</Genre>
-                  ))}
-                </GenreWrapper>
+                <Publisher>{publisher_original}</Publisher>
               </div>
             </ResultItem>
           )

@@ -4,17 +4,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@condenast/xml-to-react": "^1.0.0",
-    "axios": "^0.18.0",
-    "cheerio": "^1.0.0-rc.3",
     "gh-pages": "^2.0.1",
+    "html-react-parser": "^0.7.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.0",
-    "styled-components": "^4.2.0",
-    "xmldom": "^0.1.27"
+    "styled-components": "^4.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

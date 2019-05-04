@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import cheerio from 'cheerio';
-import axios from 'axios';
 import styled from 'styled-components';
+import parse from 'html-react-parser';
 import { getPodcast } from './apiActions';
 import { useStateValue } from './state';
-
-const scrape = id => axios.get(`https://itunes.apple.com/us/podcast//id${id}`);
-
-// const lookUp = id =>
-//   fetch(`http://itunes.apple.com/lookup?id=${id}`).then(response => {
-//     if (response) {
-//       console.log('response', response);
-//       return response.json();
-//     }
-//     return null;
-//   });
+import { unixTimeToDate } from './dateUtils';
+import ScaleLoader from './ScaleLoader';
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,92 +48,55 @@ const WebsiteLink = styled.a`
 
 const Podcast = ({ match }) => {
   const [initialized, setInitialized] = useState(false);
-  const [description, setDescription] = useState('');
-  const [episodes, setEpisodes] = useState([]);
-  // const [podcast, setPodcast] = useState({});
-  const [website, setWebsite] = useState('');
-  const [language, setLanguage] = useState('');
   const podcastId = match.params.id;
-  const [{ podcasts }, dispatch] = useStateValue();
-  const podcast = podcasts.results.map(p => p.collectionId === podcastId);
+  const [{ podcast }, dispatch] = useStateValue();
+  const {
+    description,
+    episodes,
+    image,
+    language,
+    loading,
+    publisher,
+    rss,
+    title,
+    website
+  } = podcast;
   useEffect(() => {
     if (!initialized) {
       getPodcast(podcastId, dispatch);
-      // lookUp(podcastId).then(({ results }) => {
-      //   setPodcast(results[0]);
-      // });
-      scrape(podcastId).then(response => {
-        const $ = cheerio.load(response.data);
-        $('#content .center-stack .product-review p').each((index, element) => {
-          setDescription(element.firstChild.data);
-        });
-        $('.extra-list a:contains("Podcast Website")').each(
-          (index, element) => {
-            setWebsite($(element).attr('href'));
-          }
-        );
-        $('.language').each((index, element) => {
-          const lang = $(element)
-            .text()
-            .substring(10);
-          setLanguage(lang);
-        });
-        const tracks = [];
-        $('.podcast-episode').each((index, element) => {
-          const episodeId = $(element).attr('adam-id');
-          const episode = [];
-          $(element)
-            .find('.text')
-            .each((i, el) => {
-              episode.push(el.firstChild.data);
-            });
-          const [
-            episodeTitle,
-            episodeDescription,
-            episodeReleaseData
-          ] = episode;
-          tracks.push({
-            episodeId,
-            episodeTitle,
-            episodeDescription,
-            episodeReleaseData
-          });
-        });
-        setEpisodes(tracks);
-      });
     }
     setInitialized(true);
   });
+  if (loading) {
+    return <ScaleLoader />;
+  }
   return (
     <Wrapper>
       <Main>
-        <Title>{podcast.collectionName}</Title>
+        <Title>{title}</Title>
         <p>{description}</p>
         <SectionHeading>Episodes</SectionHeading>
         <div>
-          {episodes.map(
-            ({
-              episodeId,
-              episodeTitle,
-              episodeDescription,
-              episodeReleaseData
-            }) => (
-              <div key={episodeId}>
-                <h3>{episodeTitle}</h3>
-                {episodeTitle !== episodeDescription ? (
-                  <p>{episodeDescription}</p>
+          {episodes &&
+            episodes.map(episode => (
+              <div key={episode.id}>
+                <h3>{episode.title}</h3>
+                {episode.title !== episode.description ? (
+                  <p>{parse(episode.description)}</p>
                 ) : null}
-                <ReleaseDate>{`Released: ${episodeReleaseData}`}</ReleaseDate>
+                <ReleaseDate>
+                  {`Released: ${unixTimeToDate(episode.pub_date_ms)}`}
+                </ReleaseDate>
               </div>
-            )
-          )}
+            ))}
         </div>
       </Main>
       <Sidebar>
-        <Artwork src={podcast.artworkUrl600} alt="artwork" />
-        <p id="publisher">{podcast.artistName}</p>
+        <Artwork src={image} alt="artwork" />
+        <p id="publisher">{publisher}</p>
         <p>{language}</p>
-        <WebsiteLink href={website}>{website}</WebsiteLink>
+        <WebsiteLink href={website}>Website</WebsiteLink>
+        <WebsiteLink href={rss}>Feed</WebsiteLink>
       </Sidebar>
     </Wrapper>
   );
