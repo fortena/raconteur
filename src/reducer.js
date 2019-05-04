@@ -1,6 +1,7 @@
 import { GET_REQUEST, GET_PAYLOAD, GET_ERROR } from './actionTypes';
 
 export const initialState = {
+  feed: { loading: false, error: null, stage: '' },
   podcasts: { loading: false, results: [], error: null, stage: '' },
   podcast: { loading: false, error: null, stage: '' }
 };

@@ -18,16 +18,18 @@ export const getAction = ({ key, url, dispatch, options }) => {
 
 const listenUrl = 'https://listen-api.listennotes.com/api/v2';
 
+const listenOptions = {
+  headers: {
+    'X-ListenAPI-Key': process.env.REACT_APP_LISTEN_API_KEY
+  }
+};
+
 export const searchPodcasts = (term, dispatch) =>
   getAction({
     key: 'podcasts',
     url: `${listenUrl}/search?type=podcast&q=${term}`,
     dispatch,
-    options: {
-      headers: {
-        'X-ListenAPI-Key': process.env.REACT_APP_LISTEN_API_KEY
-      }
-    }
+    options: listenOptions
   });
 
 export const getPodcast = (id, dispatch) =>
@@ -35,9 +37,13 @@ export const getPodcast = (id, dispatch) =>
     key: 'podcast',
     url: `${listenUrl}/podcasts/${id}`,
     dispatch,
-    options: {
-      headers: {
-        'X-ListenAPI-Key': process.env.REACT_APP_LISTEN_API_KEY
-      }
-    }
+    options: listenOptions
+  });
+
+export const getFeed = (id, dispatch) =>
+  getAction({
+    key: 'feed',
+    url: `https://www.listennotes.com/c/r/${id}`,
+    dispatch,
+    listenOptions
   });

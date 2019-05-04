@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
-import { getPodcast } from './apiActions';
+import { getPodcast, getFeed } from './apiActions';
 import { useStateValue } from './state';
 import { unixTimeToDate } from './dateUtils';
-import ScaleLoader from './ScaleLoader';
+import Spinner from './Spinner';
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +21,8 @@ const Title = styled.h1`
 
 const Sidebar = styled.div`
   margin: 0px 40px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Artwork = styled.img`
@@ -38,18 +40,24 @@ const ReleaseDate = styled.p`
   font-style: italic;
 `;
 
-const WebsiteLink = styled.a`
+const SidebarLink = styled.a`
   color: black;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
+  margin: 5px 0px;
+`;
+
+const SidebarItem = styled.p`
+  margin: 5px 0px;
 `;
 
 const Podcast = ({ match }) => {
   const [initialized, setInitialized] = useState(false);
   const podcastId = match.params.id;
-  const [{ podcast }, dispatch] = useStateValue();
+  const [state, dispatch] = useStateValue();
+  const { podcast } = state;
   const {
     description,
     episodes,
@@ -64,11 +72,12 @@ const Podcast = ({ match }) => {
   useEffect(() => {
     if (!initialized) {
       getPodcast(podcastId, dispatch);
+      getFeed(podcastId, dispatch);
     }
     setInitialized(true);
-  });
+  }, [state]);
   if (loading) {
-    return <ScaleLoader />;
+    return <Spinner />;
   }
   return (
     <Wrapper>
@@ -93,10 +102,10 @@ const Podcast = ({ match }) => {
       </Main>
       <Sidebar>
         <Artwork src={image} alt="artwork" />
-        <p id="publisher">{publisher}</p>
-        <p>{language}</p>
-        <WebsiteLink href={website}>Website</WebsiteLink>
-        <WebsiteLink href={rss}>Feed</WebsiteLink>
+        <SidebarItem id="publisher">{publisher}</SidebarItem>
+        <SidebarItem>{language}</SidebarItem>
+        <SidebarLink href={website}>Website</SidebarLink>
+        <SidebarLink href={rss}>Feed</SidebarLink>
       </Sidebar>
     </Wrapper>
   );

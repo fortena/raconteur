@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
+import Spinner from './Spinner';
 import { enter } from './keyEvents';
 import { useStateValue } from './state';
 import { searchPodcasts } from './apiActions';
@@ -59,6 +60,7 @@ const PodcastSearch = ({ history, location }) => {
   const [initialized, setInitialized] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [{ podcasts }, dispatch] = useStateValue();
+  const { loading, results } = podcasts;
   useEffect(() => {
     if (!initialized && location.search.length > 0) {
       const searchParam = decodeURI(location.search.substring(1));
@@ -81,9 +83,11 @@ const PodcastSearch = ({ history, location }) => {
           }
         }}
       />
-      <div>
-        {podcasts.results.map(
-          ({ id, image, publisher_original, title_original }) => (
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div>
+          {results.map(({ id, image, publisher_original, title_original }) => (
             <ResultItem key={id}>
               <img src={image} alt="artwork" />
               <div>
@@ -93,9 +97,9 @@ const PodcastSearch = ({ history, location }) => {
                 <Publisher>{publisher_original}</Publisher>
               </div>
             </ResultItem>
-          )
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </SearchWrapper>
   );
 };
