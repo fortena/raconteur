@@ -1,13 +1,15 @@
 {
-  "main.css": "/cast-wiki/static/css/main.28d9f20a.chunk.css",
-  "main.js": "/cast-wiki/static/js/main.1c4d277c.chunk.js",
-  "main.js.map": "/cast-wiki/static/js/main.1c4d277c.chunk.js.map",
-  "runtime~main.js": "/cast-wiki/static/js/runtime~main.3270aabf.js",
-  "runtime~main.js.map": "/cast-wiki/static/js/runtime~main.3270aabf.js.map",
-  "static/js/2.6d8427af.chunk.js": "/cast-wiki/static/js/2.6d8427af.chunk.js",
-  "static/js/2.6d8427af.chunk.js.map": "/cast-wiki/static/js/2.6d8427af.chunk.js.map",
-  "index.html": "/cast-wiki/index.html",
-  "precache-manifest.9db584acadb0e20573d95b51cf457e59.js": "/cast-wiki/precache-manifest.9db584acadb0e20573d95b51cf457e59.js",
-  "service-worker.js": "/cast-wiki/service-worker.js",
-  "static/css/main.28d9f20a.chunk.css.map": "/cast-wiki/static/css/main.28d9f20a.chunk.css.map"
+  "files": {
+    "main.css": "/raconteur/static/css/main.795991f2.chunk.css",
+    "main.js": "/raconteur/static/js/main.8845302a.chunk.js",
+    "main.js.map": "/raconteur/static/js/main.8845302a.chunk.js.map",
+    "runtime~main.js": "/raconteur/static/js/runtime~main.a9e115cc.js",
+    "runtime~main.js.map": "/raconteur/static/js/runtime~main.a9e115cc.js.map",
+    "static/js/2.4fc18c04.chunk.js": "/raconteur/static/js/2.4fc18c04.chunk.js",
+    "static/js/2.4fc18c04.chunk.js.map": "/raconteur/static/js/2.4fc18c04.chunk.js.map",
+    "index.html": "/raconteur/index.html",
+    "precache-manifest.047f8b9b7e273a6fa100993c8fe1c79e.js": "/raconteur/precache-manifest.047f8b9b7e273a6fa100993c8fe1c79e.js",
+    "service-worker.js": "/raconteur/service-worker.js",
+    "static/css/main.795991f2.chunk.css.map": "/raconteur/static/css/main.795991f2.chunk.css.map"
+  }
 }
