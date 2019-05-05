@@ -21,14 +21,11 @@ const Title = styled.h1`
   font-size: 72px;
 `;
 
-const SubTitle = styled.p``;
-
 export default props => {
   return (
     <Wrapper>
       <Header>
-        <Title>cast.wiki</Title>
-        <SubTitle>The ultimate podpedia</SubTitle>
+        <Title>raconteur</Title>
       </Header>
       <PodcastSearch {...props} />
     </Wrapper>

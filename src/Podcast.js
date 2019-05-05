@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
-import { getPodcast, getFeed } from './apiActions';
+import { getPodcast } from './apiActions';
 import { useStateValue } from './state';
 import { unixTimeToDate } from './dateUtils';
 import Spinner from './Spinner';
+import PodcastCard from './PodcastCard';
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,21 +14,6 @@ const Wrapper = styled.div`
 
 const Main = styled.div`
   margin: 0px 40px;
-`;
-
-const Title = styled.h1`
-  margin-top: 0px;
-`;
-
-const Sidebar = styled.div`
-  margin: 0px 40px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Artwork = styled.img`
-  height: 300px;
-  width: 300px;
 `;
 
 const SectionHeading = styled.h2`
@@ -40,17 +26,10 @@ const ReleaseDate = styled.p`
   font-style: italic;
 `;
 
-const SidebarLink = styled.a`
-  color: black;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+const Audio = styled.audio`
+  &:focus {
+    outline: none;
   }
-  margin: 5px 0px;
-`;
-
-const SidebarItem = styled.p`
-  margin: 5px 0px;
 `;
 
 const Podcast = ({ match }) => {
@@ -58,31 +37,20 @@ const Podcast = ({ match }) => {
   const podcastId = match.params.id;
   const [state, dispatch] = useStateValue();
   const { podcast } = state;
-  const {
-    description,
-    episodes,
-    image,
-    language,
-    loading,
-    publisher,
-    rss,
-    title,
-    website
-  } = podcast;
+  const { description, episodes, image, loading, publisher, title } = podcast;
   useEffect(() => {
     if (!initialized) {
       getPodcast(podcastId, dispatch);
-      getFeed(podcastId, dispatch);
     }
     setInitialized(true);
-  }, [state]);
+  });
   if (loading) {
     return <Spinner />;
   }
   return (
     <Wrapper>
       <Main>
-        <Title>{title}</Title>
+        <PodcastCard image={image} title={title} publisher={publisher} />
         <p>{description}</p>
         <SectionHeading>Episodes</SectionHeading>
         <div>
@@ -90,6 +58,7 @@ const Podcast = ({ match }) => {
             episodes.map(episode => (
               <div key={episode.id}>
                 <h3>{episode.title}</h3>
+                <Audio controls src={episode.audio} preload="none" />
                 {episode.title !== episode.description ? (
                   <p>{parse(episode.description)}</p>
                 ) : null}
@@ -100,13 +69,6 @@ const Podcast = ({ match }) => {
             ))}
         </div>
       </Main>
-      <Sidebar>
-        <Artwork src={image} alt="artwork" />
-        <SidebarItem id="publisher">{publisher}</SidebarItem>
-        <SidebarItem>{language}</SidebarItem>
-        <SidebarLink href={website}>Website</SidebarLink>
-        <SidebarLink href={rss}>Feed</SidebarLink>
-      </Sidebar>
     </Wrapper>
   );
 };

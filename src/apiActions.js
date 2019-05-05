@@ -18,7 +18,7 @@ export const getAction = ({ key, url, dispatch, options }) => {
 
 const listenUrl = 'https://listen-api.listennotes.com/api/v2';
 
-const listenOptions = {
+const options = {
   headers: {
     'X-ListenAPI-Key': process.env.REACT_APP_LISTEN_API_KEY
   }
@@ -29,7 +29,7 @@ export const searchPodcasts = (term, dispatch) =>
     key: 'podcasts',
     url: `${listenUrl}/search?type=podcast&q=${term}`,
     dispatch,
-    options: listenOptions
+    options
   });
 
 export const getPodcast = (id, dispatch) =>
@@ -37,7 +37,7 @@ export const getPodcast = (id, dispatch) =>
     key: 'podcast',
     url: `${listenUrl}/podcasts/${id}`,
     dispatch,
-    options: listenOptions
+    options
   });
 
 export const getFeed = (id, dispatch) =>
@@ -45,5 +45,11 @@ export const getFeed = (id, dispatch) =>
     key: 'feed',
     url: `https://www.listennotes.com/c/r/${id}`,
     dispatch,
-    listenOptions
+    options: {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'X-ListenAPI-Key': process.env.REACT_APP_LISTEN_API_KEY
+      },
+      mode: 'no-cors'
+    }
   });

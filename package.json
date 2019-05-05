@@ -1,6 +1,6 @@
 {
-  "name": "cast-wiki",
-  "homepage": "http://fortena.github.io/cast-wiki",
+  "name": "raconteur",
+  "homepage": "http://fortena.github.io/raconteur",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

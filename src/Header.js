@@ -26,7 +26,7 @@ export default () => (
   <HeaderWrapper>
     <List>
       <HomeItem>
-        <HomeLink to="/">cast.wiki</HomeLink>
+        <HomeLink to="/">raconteur</HomeLink>
       </HomeItem>
     </List>
   </HeaderWrapper>

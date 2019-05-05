@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
 import Spinner from './Spinner';
+import PodcastSearchCard from './PodcastSearchCard';
 import { enter } from './keyEvents';
 import { useStateValue } from './state';
 import { searchPodcasts } from './apiActions';
@@ -17,26 +17,10 @@ import { searchPodcasts } from './apiActions';
 // scrape information from links?
 
 const SearchWrapper = styled.div`
-  max-width: 1200px;
-`;
-
-const ResultItem = styled.div`
+  max-width: 800px;
   display: flex;
-  margin: 15px 0px;
-`;
-
-const PodcastName = styled(Link)`
-  margin: 5px;
-  font-size: 28px;
-  color: black;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const Publisher = styled.p`
-  margin: 10px 5px;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 // const GenreWrapper = styled.div`
@@ -65,6 +49,7 @@ const PodcastSearch = ({ history, location }) => {
     if (!initialized && location.search.length > 0) {
       const searchParam = decodeURI(location.search.substring(1));
       searchPodcasts(searchParam, dispatch);
+      setSearchTerm(searchParam);
     }
     setInitialized(true);
   });
@@ -88,15 +73,14 @@ const PodcastSearch = ({ history, location }) => {
       ) : (
         <div>
           {results.map(({ id, image, publisher_original, title_original }) => (
-            <ResultItem key={id}>
-              <img src={image} alt="artwork" />
-              <div>
-                <PodcastName to={`/podcast/${id}/`}>
-                  {title_original}
-                </PodcastName>
-                <Publisher>{publisher_original}</Publisher>
-              </div>
-            </ResultItem>
+            <PodcastSearchCard
+              key={id}
+              onClick={() => history.push(`/podcast/${id}/`)}
+              id={id}
+              image={image}
+              title={title_original}
+              publisher={publisher_original}
+            />
           ))}
         </div>
       )}

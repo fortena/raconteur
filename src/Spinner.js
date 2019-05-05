@@ -34,8 +34,8 @@ const Bar = styled.div`
 const maxBar = 10;
 
 const ScaleLoader = () => {
-  const [bars, setBars] = useState([]);
-  const [nextBar, setNextBar] = useState(0.1);
+  const [bars, setBars] = useState([0.1]);
+  const [nextBar, setNextBar] = useState(0.2);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (nextBar <= maxBar) {
