@@ -16,6 +16,7 @@ const HomeItem = styled.li`
 `;
 
 const HomeLink = styled(Link)`
+  font-family: 'Permanent Marker', cursive;
   text-decoration: none;
   color: black;
   font-size: 36px;

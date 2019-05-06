@@ -18,6 +18,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.h1`
+  font-family: 'Permanent Marker', cursive;
   font-size: 72px;
   @media (max-width: 400px) {
     font-size: 54px;
