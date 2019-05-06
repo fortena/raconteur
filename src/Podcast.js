@@ -6,6 +6,7 @@ import { getPodcast } from './apiActions';
 import { useStateValue } from './state';
 import { unixTimeToDate } from './dateUtils';
 import Spinner from './Spinner';
+import Header from './Header';
 import PodcastCard from './PodcastCard';
 
 const Wrapper = styled.div`
@@ -14,6 +15,9 @@ const Wrapper = styled.div`
 
 const Main = styled.div`
   margin: 0px 40px;
+  @media (max-width: 400px) {
+    margin: 0px 10px;
+  }
 `;
 
 const SectionHeading = styled.h2`
@@ -50,6 +54,7 @@ const Podcast = ({ match }) => {
   return (
     <Wrapper>
       <Main>
+        <Header />
         <PodcastCard image={image} title={title} publisher={publisher} />
         <p>{description}</p>
         <SectionHeading>Episodes</SectionHeading>

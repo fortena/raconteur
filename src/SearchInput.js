@@ -1,13 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import SearchIcon from './SearchIcon';
 
 const InputWrapper = styled.div`
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 0px 5px 0px 10px;
   display: flex;
-  &:before {
-    content: '🔍';
+  align-items: center;
+  margin-bottom: 18px;
+  @media (max-width: 400px) {
+    margin: 0px 10px 18px 10px;
   }
 `;
 
@@ -18,14 +22,28 @@ const Input = styled.input`
     outline: none;
   }
   font-size: 14px;
+  height: 23px;
+  @media (max-width: 400px) {
+    min-width: unset;
+    width: 100%;
+  }
 `;
 
-const SearchInput = props => {
+const SearchInput = ({ value, ...props }) => {
   return (
     <InputWrapper>
-      <Input {...props} />
+      <SearchIcon color={value === '' ? '#757575' : '#000000'} />
+      <Input value={value} {...props} />
     </InputWrapper>
   );
+};
+
+SearchInput.propTypes = {
+  value: PropTypes.string
+};
+
+SearchInput.defaultProps = {
+  value: ''
 };
 
 export default SearchInput;

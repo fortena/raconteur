@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Header = styled.header`
+const TitleWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -19,14 +19,17 @@ const Header = styled.header`
 
 const Title = styled.h1`
   font-size: 72px;
+  @media (max-width: 400px) {
+    font-size: 54px;
+  }
 `;
 
 export default props => {
   return (
     <Wrapper>
-      <Header>
+      <TitleWrapper>
         <Title>raconteur</Title>
-      </Header>
+      </TitleWrapper>
       <PodcastSearch {...props} />
     </Wrapper>
   );

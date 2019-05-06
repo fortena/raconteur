@@ -7,6 +7,8 @@ const HeaderWrapper = styled.div``;
 const List = styled.ul`
   list-style-type: none;
   display: flex;
+  padding: 0px;
+  margin-top: 10px;
 `;
 
 const HomeItem = styled.li`
