@@ -1,12 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import { format } from 'date-fns';
 
 export const unixTimeToDate = unixTime =>
-  new Intl.DateTimeFormat('default', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
-  }).format(new Date(unixTime));
+  format(new Date(unixTime), 'D MMM YYYY').toUpperCase();

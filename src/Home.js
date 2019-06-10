@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PodcastSearch from './PodcastSearch';
+import Racounteurs from './Raconteurs';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,8 +21,10 @@ const TitleWrapper = styled.div`
 const Title = styled.h1`
   font-family: 'Permanent Marker', cursive;
   font-size: 72px;
+  margin: 0px 0px 20px 0px;
   @media (max-width: 400px) {
-    font-size: 54px;
+    font-size: 48px;
+    margin: 0px 0px 10px 0px;
   }
 `;
 
@@ -29,6 +32,7 @@ export default props => {
   return (
     <Wrapper>
       <TitleWrapper>
+        <Racounteurs />
         <Title>raconteur</Title>
       </TitleWrapper>
       <PodcastSearch {...props} />

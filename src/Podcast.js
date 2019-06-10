@@ -25,14 +25,21 @@ const SectionHeading = styled.h2`
   padding: 5px 0px;
 `;
 
+const EpisodeTitle = styled.h3`
+  margin-bottom: 0px;
+`;
+
 const ReleaseDate = styled.p`
-  font-size: 14px;
-  font-style: italic;
+  font-size: 12px;
+  margin: 5px 0px 10px 0px;
 `;
 
 const Audio = styled.audio`
   &:focus {
     outline: none;
+  }
+  @media (max-width: 400px) {
+    width: 100%;
   }
 `;
 
@@ -62,14 +69,14 @@ const Podcast = ({ match }) => {
           {episodes &&
             episodes.map(episode => (
               <div key={episode.id}>
-                <h3>{episode.title}</h3>
+                <EpisodeTitle>{episode.title}</EpisodeTitle>
+                <ReleaseDate>
+                  {`${unixTimeToDate(episode.pub_date_ms)}`}
+                </ReleaseDate>
                 <Audio controls src={episode.audio} preload="none" />
                 {episode.title !== episode.description ? (
                   <p>{parse(episode.description)}</p>
                 ) : null}
-                <ReleaseDate>
-                  {`Released: ${unixTimeToDate(episode.pub_date_ms)}`}
-                </ReleaseDate>
               </div>
             ))}
         </div>

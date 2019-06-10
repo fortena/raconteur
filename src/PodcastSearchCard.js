@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 const Artwork = styled.img`
   height: 100px;
   width: 100px;
+  min-width: 100px;
   border-radius: 100px;
   ${({ hover }) => (hover ? 'border-radius: 4px' : '')}
   -moz-transition: all ${transitionTime}s;
@@ -36,6 +37,9 @@ const Title = styled(Link)`
   font-size: 32px;
   color: black;
   text-decoration: ${({ textDecoration }) => textDecoration};
+  @media (max-width: 400px) {
+    font-size: 32px;
+  }
 `;
 
 const PodcastSearchCard = ({ onClick, id, image, title, publisher }) => {

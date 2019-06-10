@@ -21,6 +21,9 @@ const SearchWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  @media (max-width: 400px) {
+    margin: 0px 10px;
+  }
 `;
 
 // const GenreWrapper = styled.div`

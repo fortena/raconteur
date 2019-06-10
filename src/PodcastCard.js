@@ -12,6 +12,7 @@ const Wrapper = styled.div`
 const Artwork = styled.img`
   height: 150px;
   width: 150px;
+  min-width: 150px;
   border-radius: 150px;
   ${({ hover }) => (hover ? 'border-radius: 1px' : '')}
   -moz-transition: all ${transitionTime}s;

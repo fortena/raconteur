@@ -10,9 +10,6 @@ const InputWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 18px;
-  @media (max-width: 400px) {
-    margin: 0px 10px 18px 10px;
-  }
 `;
 
 const Input = styled.input`

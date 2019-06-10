@@ -8,11 +8,14 @@ const List = styled.ul`
   list-style-type: none;
   display: flex;
   padding: 0px;
-  margin-top: 10px;
+  margin-top: 10px 0px;
+  @media (max-width: 400px) {
+    justify-content: center;
+  }
 `;
 
 const HomeItem = styled.li`
-  margin: 0px 40px 0px 0px;
+  margin: 0px;
 `;
 
 const HomeLink = styled(Link)`
