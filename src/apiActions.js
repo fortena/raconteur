@@ -1,4 +1,4 @@
-import { GET_REQUEST, GET_PAYLOAD, GET_ERROR } from './actionTypes';
+import { GET_REQUEST, GET_PAYLOAD, GET_ERROR, RESET } from './actionTypes';
 
 const request = (url, options) =>
   fetch(url, options).then(response => response.json());
@@ -16,6 +16,10 @@ export const getAction = ({ key, url, dispatch, options }) => {
     });
 };
 
+export const resetAction = ({ key, dispatch }) => {
+  dispatch({ type: RESET, meta: { key } });
+};
+
 const listenUrl = 'https://listen-api.listennotes.com/api/v2';
 
 const options = {
@@ -30,6 +34,12 @@ export const searchPodcasts = (term, dispatch) =>
     url: `${listenUrl}/search?type=podcast&q=${term}`,
     dispatch,
     options
+  });
+
+export const resetPodcasts = dispatch =>
+  resetAction({
+    key: 'podcasts',
+    dispatch
   });
 
 export const getPodcast = (id, dispatch) =>

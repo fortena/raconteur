@@ -1,4 +1,4 @@
-import { GET_REQUEST, GET_PAYLOAD, GET_ERROR } from './actionTypes';
+import { GET_REQUEST, GET_PAYLOAD, GET_ERROR, RESET } from './actionTypes';
 
 export const initialState = {
   feed: { loading: false, error: null, stage: '' },
@@ -54,6 +54,13 @@ export const reducer = (state, action) => {
           loading: false,
           stage: 'Request failed'
         }
+      };
+    }
+    case RESET: {
+      const { key } = action.meta;
+      return {
+        ...state,
+        [key]: initialState[key]
       };
     }
     default:

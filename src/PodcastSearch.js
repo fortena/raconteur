@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import PodcastSearchCard from './PodcastSearchCard';
 import { enter } from './keyEvents';
 import { useStateValue } from './state';
-import { searchPodcasts } from './apiActions';
+import { searchPodcasts, resetPodcasts } from './apiActions';
 
 // Genres endpoint
 // https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres
@@ -49,10 +49,14 @@ const PodcastSearch = ({ history, location }) => {
   const [{ podcasts }, dispatch] = useStateValue();
   const { loading, results } = podcasts;
   useEffect(() => {
-    if (!initialized && location.search.length > 0) {
-      const searchParam = decodeURI(location.search.substring(1));
-      searchPodcasts(searchParam, dispatch);
-      setSearchTerm(searchParam);
+    if (!initialized) {
+      if (location.search.length > 0) {
+        const searchParam = decodeURI(location.search.substring(1));
+        searchPodcasts(searchParam, dispatch);
+        setSearchTerm(searchParam);
+      } else if (podcasts.results.length > 0) {
+        resetPodcasts(dispatch);
+      }
     }
     setInitialized(true);
   });
