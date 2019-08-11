@@ -10,6 +10,8 @@ import Header from './Header';
 import PodcastCard from './PodcastCard';
 import { PermanentMarkerButton } from './Button';
 
+const episodesPerRequest = 10;
+
 const Wrapper = styled.div`
   display: flex;
 `;
@@ -47,6 +49,7 @@ const Audio = styled.audio`
 const Podcast = ({ match }) => {
   const [initialized, setInitialized] = useState(false);
   const [lastPubDate, setLastPubDate] = useState(null);
+  const [moreEpisodesAvailable, setMoreEpisodesAvailable] = useState(false);
   const podcastId = match.params.id;
   const [state, dispatch] = useStateValue();
   const { podcast } = state;
@@ -62,8 +65,13 @@ const Podcast = ({ match }) => {
   useEffect(() => {
     if (!initialized) {
       getPodcast(podcastId, dispatch).then(p => {
-        const lastEpisode = [...p.episodes].pop();
-        setLastPubDate(lastEpisode.pub_date_ms);
+        if (p.episodes.length === episodesPerRequest) {
+          const lastEpisode = [...p.episodes].pop();
+          setLastPubDate(lastEpisode.pub_date_ms);
+          setMoreEpisodesAvailable(true);
+        } else {
+          setMoreEpisodesAvailable(false);
+        }
       });
     }
     setInitialized(true);
@@ -93,22 +101,28 @@ const Podcast = ({ match }) => {
               </div>
             ))}
         </div>
-        {loadingMore ? (
-          <Spinner />
-        ) : (
-          <PermanentMarkerButton
-            onClick={() => {
-              getMorePodcastEpisodes(podcastId, lastPubDate, dispatch).then(
-                p => {
-                  const lastEpisode = [...p.episodes].pop();
-                  setLastPubDate(lastEpisode.pub_date_ms);
-                }
-              );
-            }}
-          >
-            Load more
-          </PermanentMarkerButton>
-        )}
+        {moreEpisodesAvailable ? (
+          loadingMore ? (
+            <Spinner />
+          ) : (
+            <PermanentMarkerButton
+              onClick={() => {
+                getMorePodcastEpisodes(podcastId, lastPubDate, dispatch).then(
+                  p => {
+                    if (p.episodes.length === episodesPerRequest) {
+                      const lastEpisode = [...p.episodes].pop();
+                      setLastPubDate(lastEpisode.pub_date_ms);
+                    } else {
+                      setMoreEpisodesAvailable(false);
+                    }
+                  }
+                );
+              }}
+            >
+              Load more
+            </PermanentMarkerButton>
+          )
+        ) : null}
       </Main>
     </Wrapper>
   );
