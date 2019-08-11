@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
-import { getPodcast } from './apiActions';
+import { getPodcast, getMorePodcastEpisodes } from './apiActions';
 import { useStateValue } from './state';
 import { unixTimeToDate } from './dateUtils';
 import Spinner from './Spinner';
 import Header from './Header';
 import PodcastCard from './PodcastCard';
+import { PermanentMarkerButton } from './Button';
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
 const Main = styled.div`
-  margin: 0px 40px;
+  margin: 0px 40px 20px 40px;
   @media (max-width: 400px) {
     margin: 0px 10px;
   }
@@ -45,13 +46,25 @@ const Audio = styled.audio`
 
 const Podcast = ({ match }) => {
   const [initialized, setInitialized] = useState(false);
+  const [lastPubDate, setLastPubDate] = useState(null);
   const podcastId = match.params.id;
   const [state, dispatch] = useStateValue();
   const { podcast } = state;
-  const { description, episodes, image, loading, publisher, title } = podcast;
+  const {
+    description,
+    episodes,
+    image,
+    loading,
+    loadingMore,
+    publisher,
+    title
+  } = podcast;
   useEffect(() => {
     if (!initialized) {
-      getPodcast(podcastId, dispatch);
+      getPodcast(podcastId, dispatch).then(p => {
+        const lastEpisode = [...p.episodes].pop();
+        setLastPubDate(lastEpisode.pub_date_ms);
+      });
     }
     setInitialized(true);
   });
@@ -80,6 +93,22 @@ const Podcast = ({ match }) => {
               </div>
             ))}
         </div>
+        {loadingMore ? (
+          <Spinner />
+        ) : (
+          <PermanentMarkerButton
+            onClick={() => {
+              getMorePodcastEpisodes(podcastId, lastPubDate, dispatch).then(
+                p => {
+                  const lastEpisode = [...p.episodes].pop();
+                  setLastPubDate(lastEpisode.pub_date_ms);
+                }
+              );
+            }}
+          >
+            Load more
+          </PermanentMarkerButton>
+        )}
       </Main>
     </Wrapper>
   );
