@@ -8,7 +8,6 @@ import { unixTimeToDate } from './dateUtils';
 import Spinner from './Spinner';
 import Header from './Header';
 import PodcastCard from './PodcastCard';
-import { PermanentMarkerButton } from './Button';
 
 const episodesPerRequest = 10;
 
@@ -76,6 +75,30 @@ const Podcast = ({ match }) => {
     }
     setInitialized(true);
   });
+  useEffect(() => {
+    const callback = e => {
+      const scrollElement =
+        document.scrollingElement || document.documentElement;
+      if (
+        moreEpisodesAvailable &&
+        Math.round(scrollElement.scrollHeight) <=
+          Math.round(scrollElement.scrollTop + window.innerHeight)
+      ) {
+        getMorePodcastEpisodes(podcastId, lastPubDate, dispatch).then(p => {
+          if (p.episodes.length === episodesPerRequest) {
+            const lastEpisode = [...p.episodes].pop();
+            setLastPubDate(lastEpisode.pub_date_ms);
+          } else {
+            setMoreEpisodesAvailable(false);
+          }
+        });
+      }
+    };
+    window.addEventListener('scroll', callback);
+    return () => {
+      window.removeEventListener('scroll', callback);
+    };
+  });
   if (loading) {
     return <Spinner />;
   }
@@ -101,28 +124,7 @@ const Podcast = ({ match }) => {
               </div>
             ))}
         </div>
-        {moreEpisodesAvailable ? (
-          loadingMore ? (
-            <Spinner />
-          ) : (
-            <PermanentMarkerButton
-              onClick={() => {
-                getMorePodcastEpisodes(podcastId, lastPubDate, dispatch).then(
-                  p => {
-                    if (p.episodes.length === episodesPerRequest) {
-                      const lastEpisode = [...p.episodes].pop();
-                      setLastPubDate(lastEpisode.pub_date_ms);
-                    } else {
-                      setMoreEpisodesAvailable(false);
-                    }
-                  }
-                );
-              }}
-            >
-              Load more
-            </PermanentMarkerButton>
-          )
-        ) : null}
+        {loadingMore ? <Spinner /> : null}
       </Main>
     </Wrapper>
   );
