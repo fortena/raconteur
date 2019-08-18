@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import useResizeObserver from './hooks/useResizeObserver';
+import useInterval from './hooks/useInterval';
 import LeftArrow from './LeftArrow';
 import RightArrow from './RightArrow';
-import useResizeObserver from './hooks/useResizeObserver';
 import PodcastSearchCard from './PodcastSearchCard';
 
 const transitionTime = 0.3;
+const slideDelay = 5000;
 
 const Wrapper = styled.div`
   margin: 30px 0px 0px 0px;
@@ -24,6 +26,7 @@ const Image = styled.img`
   -ms-transition: opacity ${transitionTime}s ease-in;
   -o-transition: opacity ${transitionTime}s ease-in;
   transition: opacity ${transitionTime}s ease-in;
+  max-height: 500px;
 `;
 
 const Overlay = styled.div`
@@ -61,19 +64,28 @@ const LinkContainer = styled.div`
   margin-top: 30px;
 `;
 
-const ArrowContainer = styled.div`
+const ArrowContainer = styled.button`
   height: ${({ height }) => height}px;
   display: flex;
   align-items: center;
   width: 100px;
   justify-content: center;
+  background: transparent;
+  border: none;
+  outline: none;
 `;
 
-const Slider = ({ title, history, imageUrl, podcasts }) => {
+const Slider = ({ slides, history }) => {
   const [ref, width, height] = useResizeObserver(500, 400);
+  const [delay, setDelay] = useState(slideDelay);
+  const [slideIndex, setSlideIndex] = useState(0);
+  useInterval(() => {
+    setSlideIndex((slideIndex + 1) % slides.length);
+  }, delay);
   const [hover, setHover] = useState(false);
   const [display, setDisplay] = useState(true);
   const imageLoaded = display && ref && ref.current;
+  const { imageUrl, podcasts, title } = slides[slideIndex];
   return (
     <Wrapper>
       <Image
@@ -84,8 +96,14 @@ const Slider = ({ title, history, imageUrl, podcasts }) => {
       />
       {imageLoaded && (
         <Overlay
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
+          onMouseEnter={() => {
+            setHover(true);
+            setDelay(null);
+          }}
+          onMouseLeave={() => {
+            setHover(false);
+            setDelay(slideDelay);
+          }}
           background={
             hover
               ? 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.2))'
@@ -94,7 +112,16 @@ const Slider = ({ title, history, imageUrl, podcasts }) => {
           height={height}
           width={width}
         >
-          <ArrowContainer height={height}>
+          <ArrowContainer
+            height={height}
+            onClick={() => {
+              if (slideIndex === 0 && slides.length > 0) {
+                setSlideIndex(slides.length - 1);
+              } else {
+                setSlideIndex((slideIndex - 1) % slides.length);
+              }
+            }}
+          >
             <LeftArrow opacity={hover ? 1 : 0} />
           </ArrowContainer>
           <Content>
@@ -114,7 +141,16 @@ const Slider = ({ title, history, imageUrl, podcasts }) => {
             </LinkContainer>
             <Title>{title}</Title>
           </Content>
-          <ArrowContainer height={height}>
+          <ArrowContainer
+            height={height}
+            onClick={() => {
+              if (slideIndex === slides.length - 1) {
+                setSlideIndex(0);
+              } else {
+                setSlideIndex((slideIndex + 1) % slides.length);
+              }
+            }}
+          >
             <RightArrow opacity={hover ? 1 : 0} />
           </ArrowContainer>
         </Overlay>
@@ -125,16 +161,16 @@ const Slider = ({ title, history, imageUrl, podcasts }) => {
 
 Slider.defaultProps = {
   history: null,
-  imageUrl: '',
-  title: '',
-  podcasts: []
+  slides: []
 };
 
 Slider.propTypes = {
   history: PropTypes.object,
-  imageUrl: PropTypes.string,
-  title: PropTypes.string,
-  podcasts: PropTypes.array
+  slides: PropTypes.shape({
+    imageUrl: PropTypes.string,
+    title: PropTypes.string,
+    podcasts: PropTypes.array
+  })
 };
 
 export default Slider;

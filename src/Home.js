@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import PodcastSearch from './PodcastSearch';
-import Racounteurs from './Raconteurs';
 import Slider from './Slider';
 
 const Wrapper = styled.div`
@@ -34,34 +33,73 @@ export default ({ history, location }) => {
     <Wrapper>
       <TitleWrapper>
         <Slider
-          podcasts={[
+          slides={[
             {
-              id: '658b13f1769449f89b937754c17feee4',
-              image:
-                'https://cdn-images-1.listennotes.com/podcasts/dan-carlins-hardcore-history-dan-carlin-THDlEiZ9tbB.300x300.jpg',
-              publisher_original: 'Dan Carlin',
-              title_original: "Dan Carlin's Hardcore History"
+              imageUrl:
+                'https://cdn1.thr.com/sites/default/files/imagecache/landscape_928x523/2015/09/dan_carlin_-_h_2015.jpg',
+              title: 'Dan Carlin',
+              podcasts: [
+                {
+                  id: '658b13f1769449f89b937754c17feee4',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/dan-carlins-hardcore-history-dan-carlin-THDlEiZ9tbB.300x300.jpg',
+                  publisher_original: 'Dan Carlin',
+                  title_original: "Dan Carlin's Hardcore History"
+                },
+                {
+                  id: 'ffb64d537bb14563a648de7772d47334',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/common-sense-with-dan-carlin-dan-carlin-fGTUb53Xxgk.300x300.jpg',
+                  publisher_original: 'Dan Carlin',
+                  title_original: 'Common Sense with Dan Carlin'
+                },
+                {
+                  id: '74f6f88d4bdc4e5cb2982c50d17295b1',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/dan-carlins-hardcore-history-addendum-dan-isTKMRywPHE.300x300.jpg',
+                  publisher_original: 'Dan Carlin',
+                  title_original: "Dan Carlin's Hardcore History: Addendum"
+                }
+              ]
             },
             {
-              id: 'ffb64d537bb14563a648de7772d47334',
-              image:
-                'https://cdn-images-1.listennotes.com/podcasts/common-sense-with-dan-carlin-dan-carlin-fGTUb53Xxgk.300x300.jpg',
-              publisher_original: 'Dan Carlin',
-              title_original: 'Common Sense with Dan Carlin'
+              imageUrl:
+                'https://timedotcom.files.wordpress.com/2016/04/jad-abumrad.jpg?quality=85&w=1012&h=569&crop=1',
+              title: 'Jad Abumrad',
+              podcasts: [
+                {
+                  id: '535815a492a941d79b95be6ae1c5cc9c',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/radiolab-wnyc-studios-LcwYyVzfJx9.300x300.jpg',
+                  publisher_original: 'WNYC Studios',
+                  title_original: 'Radiolab'
+                },
+                {
+                  id: 'bda17730014841048b374b102c1cf187',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/radiolab-presents-more-perfect-wnyc-studios-Clw1Jjf4Bry.300x300.jpg',
+                  publisher_original: 'WNYC Studios',
+                  title_original: 'Radiolab Presents: More Perfect'
+                }
+              ]
             },
             {
-              id: '74f6f88d4bdc4e5cb2982c50d17295b1',
-              image:
-                'https://cdn-images-1.listennotes.com/podcasts/dan-carlins-hardcore-history-addendum-dan-isTKMRywPHE.300x300.jpg',
-              publisher_original: 'Dan Carlin',
-              title_original: "Dan Carlin's Hardcore History: Addendum"
+              imageUrl:
+                'https://assets.about.me/background/users/d/a/v/davidmcraney_1402869126_68.jpg',
+              title: 'David McRaney',
+              podcasts: [
+                {
+                  id: 'e9928c2a58ae46268460af9293446f72',
+                  image:
+                    'https://cdn-images-1.listennotes.com/podcasts/you-are-not-so-smart-you-are-not-so-smart-R0bxgrDycUj.300x300.jpg',
+                  publisher_original: 'You Are Not So Smart',
+                  title_original: 'You Are Not So Smart'
+                }
+              ]
             }
           ]}
           history={history}
-          imageUrl="https://cdn1.thr.com/sites/default/files/imagecache/landscape_928x523/2015/09/dan_carlin_-_h_2015.jpg"
-          title="Dan Carlin"
         />
-        {/* <Racounteurs /> */}
         <Title>raconteur</Title>
       </TitleWrapper>
       <PodcastSearch history={history} location={location} />
