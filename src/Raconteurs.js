@@ -85,17 +85,15 @@ const Raconteurs = () => {
           <Description>
             Dan is a master storyteller and uses his craft to navigate difficult
             and often contriversial subject in history and present time. Check
-            out his podcasts
-            <span> </span>
+            out his podcasts{' '}
             <PodcastLink to="/podcast/658b13f1769449f89b937754c17feee4/">
               Hardcore History
             </PodcastLink>
             {' and '}
             <PodcastLink to="/podcast/ffb64d537bb14563a648de7772d47334/">
               Common Sense
-            </PodcastLink>
-            <span> </span>
-            and be ready to be transfered to his epic scenes.
+            </PodcastLink>{' '}
+            .
           </Description>
         </Overlay>
       )}

@@ -72,8 +72,8 @@ const Podcast = ({ match }) => {
           setMoreEpisodesAvailable(false);
         }
       });
+      setInitialized(true);
     }
-    setInitialized(true);
   });
   useEffect(() => {
     const callback = e => {
