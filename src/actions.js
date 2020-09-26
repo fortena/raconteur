@@ -4,7 +4,8 @@ import {
   GET_MORE_REQUEST,
   GET_MORE_PAYLOAD,
   GET_ERROR,
-  RESET
+  RESET_STATE,
+  SET_STATE
 } from './actionTypes';
 
 const request = (url, options) =>
@@ -36,8 +37,13 @@ export const getMoreAction = ({ attribute, key, url, dispatch, options }) => {
     });
 };
 
-export const resetAction = ({ key, dispatch }) => {
-  dispatch({ type: RESET, meta: { key } });
+export const setState = ({ key, payload, dispatch }) => {
+  dispatch({ type: SET_STATE, meta: { key }, payload });
+  return payload;
+};
+
+export const resetState = ({ key, dispatch }) => {
+  dispatch({ type: RESET_STATE, meta: { key } });
 };
 
 const listenUrl = 'https://listen-api.listennotes.com/api/v2';
@@ -57,7 +63,7 @@ export const searchPodcasts = (term, dispatch) =>
   });
 
 export const resetPodcasts = dispatch =>
-  resetAction({
+  resetState({
     key: 'podcasts',
     dispatch
   });

@@ -7,7 +7,7 @@ import Spinner from './Spinner';
 import PodcastSearchCard from './PodcastSearchCard';
 import { enter } from './keyEvents';
 import { useStateValue } from './state';
-import { searchPodcasts, resetPodcasts } from './apiActions';
+import { searchPodcasts, resetPodcasts } from './actions';
 
 // Genres endpoint
 // https://itunes.apple.com/WebObjects/MZStoreServices.woa/ws/genres

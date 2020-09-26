@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import parse from 'html-react-parser';
-import { getPodcast, getMorePodcastEpisodes } from './apiActions';
+import { getPodcast, getMorePodcastEpisodes } from './actions';
 import { useStateValue } from './state';
 import { unixTimeToDate } from './dateUtils';
 import Spinner from './Spinner';

@@ -53,6 +53,7 @@ export const PermanentMarkerButton = styled(Button)`
   border-color: #000000;
   color: #000000;
   margin: 0px;
+  font-size: 18px;
 `;
 
 export default Button;

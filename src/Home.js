@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Header from './Header';
 import PodcastSearch from './PodcastSearch';
 import Slider from './Slider';
 
@@ -28,9 +29,16 @@ const Title = styled.h1`
   }
 `;
 
+const HeaderWrapper = styled.div`
+  width: calc(100% - 80px);
+`;
+
 export default ({ history, location }) => {
   return (
     <Wrapper>
+      <HeaderWrapper>
+        <Header />
+      </HeaderWrapper>
       <TitleWrapper>
         <Slider
           slides={[

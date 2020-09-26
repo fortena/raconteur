@@ -4,13 +4,15 @@ import {
   GET_MORE_REQUEST,
   GET_MORE_PAYLOAD,
   GET_ERROR,
-  RESET
+  RESET_STATE,
+  SET_STATE
 } from './actionTypes';
 
 export const initialState = {
   feed: { loading: false, error: null, stage: '' },
   podcasts: { loading: false, results: [], error: null, stage: '' },
-  podcast: { loading: false, error: null, stage: '', loadingMore: false }
+  podcast: { loading: false, error: null, stage: '', loadingMore: false },
+  profile: null
 };
 
 export const reducer = (state, action) => {
@@ -105,13 +107,22 @@ export const reducer = (state, action) => {
       };
     }
 
-    case RESET: {
+    case SET_STATE: {
+      const { key } = action.meta;
+      return {
+        ...state,
+        [key]: action.payload
+      };
+    }
+
+    case RESET_STATE: {
       const { key } = action.meta;
       return {
         ...state,
         [key]: initialState[key]
       };
     }
+
     default:
       return state;
   }

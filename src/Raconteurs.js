@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import useResizeObserver from './hooks/useResizeObserver';
 
-const transitionTime = 0.3;
+const transitionSlow = 0.4;
+const transitionFast = 0.2;
 
 const textColor = 'yellow';
 
@@ -12,9 +13,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: ${({ height }) => height}px;
   max-width: 900px;
   display: ${({ display }) => display};
+  transition: height ${transitionFast}s ease-in;
 `;
 
 const Image = styled.img`
@@ -22,11 +24,11 @@ const Image = styled.img`
   max-width: 900px;
   position: relative;
   opacity: ${({ opacity }) => opacity};
-  -webkit-transition: opacity ${transitionTime}s ease-in;
-  -moz-transition: opacity ${transitionTime}s ease-in;
-  -ms-transition: opacity ${transitionTime}s ease-in;
-  -o-transition: opacity ${transitionTime}s ease-in;
-  transition: opacity ${transitionTime}s ease-in;
+  -webkit-transition: opacity ${transitionSlow}s ease-in;
+  -moz-transition: opacity ${transitionSlow}s ease-in;
+  -ms-transition: opacity ${transitionSlow}s ease-in;
+  -o-transition: opacity ${transitionSlow}s ease-in;
+  transition: opacity ${transitionSlow}s ease-in;
 `;
 
 const Overlay = styled.div`
@@ -34,10 +36,11 @@ const Overlay = styled.div`
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
   background: ${({ background }) => background};
-  -moz-transition: all ${transitionTime}s;
-  -o-transition: all ${transitionTime}s;
-  -webkit-transition: all ${transitionTime}s;
-  transition: all ${transitionTime}s;
+  -moz-transition: all ${transitionSlow}s;
+  -o-transition: all ${transitionSlow}s;
+  -webkit-transition: all ${transitionSlow}s;
+  transition: all ${transitionSlow}s;
+  transition: height ${transitionSlow}s ease-in;
 `;
 
 const Header = styled.h1`
@@ -66,7 +69,10 @@ const Raconteurs = () => {
   const [display, setDisplay] = useState(true);
   const imageLoaded = display && ref && ref.current;
   return (
-    <Wrapper display={display ? 'flex' : 'none'}>
+    <Wrapper
+      display={display ? 'flex' : 'none'}
+      height={imageLoaded ? height : 0}
+    >
       <Image
         ref={ref}
         src="https://www.dropbox.com/s/7esgfxcm5qbksxh/dan_carlin_yearbook.jpeg?dl=1"
@@ -78,7 +84,7 @@ const Raconteurs = () => {
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           background={hover ? 'rgba(0.5, 0.5, 0.5, 0.2)' : 'transparent'}
-          height={height}
+          height={imageLoaded ? height : 0}
           width={width}
         >
           <Header>Dan Carlin</Header>

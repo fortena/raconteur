@@ -1,17 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import LoginModal from './LoginModal';
+import User from './User';
 
 const HeaderWrapper = styled.div``;
 
 const List = styled.ul`
   list-style-type: none;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 0px;
   margin-top: 10px 0px;
-  @media (max-width: 400px) {
+  /* @media (max-width: 400px) {
     justify-content: center;
-  }
+  } */
 `;
 
 const HomeItem = styled.li`
@@ -33,6 +37,10 @@ export default () => (
     <List>
       <HomeItem>
         <HomeLink to="/">raconteur</HomeLink>
+      </HomeItem>
+      <HomeItem>
+        <User />
+        <LoginModal />
       </HomeItem>
     </List>
   </HeaderWrapper>
